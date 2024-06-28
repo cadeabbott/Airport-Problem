@@ -4,6 +4,8 @@
 #include <cmath>
 #include <vector>
 #include <string>
+#include <fstream>
+#include <iostream>
 
 const float R = 6371.0f;
 const std::string KDKX = "KDKX";
@@ -16,5 +18,7 @@ struct Airport {
 };
 
 float haversine_distance(float lat1, float lon1, float lat2, float lon2);
+
+void savePathToFile(const std::vector<std::string>& path, float total_distance, const std::string& filename);
 
 #endif

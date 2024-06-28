@@ -12,32 +12,32 @@ int main() {
         create_distances();
         std::cout << "Distances calculated and saved successfully.\n";
 
-        // Load distances
-        auto airports = readDistances("airport_distances.txt");
-        if (airports.empty()) {
-            std::cerr << "No airports data found. Exiting program.\n";
-            std::cerr << "\n";
-            return 1;
-        }
-
-        // Prompt the user for algorithm choice
+        // Prompt the user to select the algorithm
         int choice;
-        std::cout << "Choose an algorithm:\n";
-        std::cout << "1. Nearest Neighbor Search\n";
+        std::cout << "Select the search algorithm:\n";
+        std::cout << "1. Nearest Neighbor\n";
         std::cout << "2. Depth Search\n";
         std::cout << "Enter your choice (1 or 2): ";
         std::cin >> choice;
 
         if (choice == 1) {
+            std::cout << "Starting nearest neighbor search...\n";
             nearest_neighbor_search();
+            std::cout << "Nearest neighbor search completed. Check 'airport_list.txt' for the results.\n";
         } else if (choice == 2) {
-            depth_search();
-        } else {
-            std::cerr << "Invalid choice. Exiting program.\n";
-            return 1;
-        }
+            size_t maxDepth = 5;
+            size_t maxBreadth = 10;
+            std::cout << "Enter the maximum depth (default 5): ";
+            std::cin >> maxDepth;
+            std::cout << "Enter the maximum breadth (default 10): ";
+            std::cin >> maxBreadth;
 
-        std::cout << "Process completed. Check 'airport_list.txt' for the results.\n";
+            std::cout << "Starting depth search...\n";
+            depth_search(maxDepth, maxBreadth);
+            std::cout << "Depth search completed. Check 'airport_list.txt' for the results.\n";
+        } else {
+            std::cout << "Invalid choice. Exiting program.\n";
+        }
     } else {
         std::cout << "Failed to create the trimmed list. Check if the original data file 'airport_coordinates.txt' is present and correctly formatted.\n";
     }
