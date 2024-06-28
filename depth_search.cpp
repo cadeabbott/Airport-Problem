@@ -3,7 +3,7 @@
 #include <iostream>
 #include <limits>
 
-void start_search() {
+void depth_search() {
     auto airports = readDistances("airport_distances.txt");
     if (airports.empty()) {
         std::cerr << "No airports data found. Exiting program.\n";
