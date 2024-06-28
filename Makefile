@@ -1,27 +1,25 @@
 CXX = g++
 CXXFLAGS = -Wall -g
 
+# Target executable
 TARGET = airport_program
-OBJS = main.o trim_list.o calculate_distances.o common.o
 
+# Source files
+SRCS = main.cpp trim_list.cpp calculate_distances.cpp read_distances.cpp depth_search.cpp common.cpp
+
+# Object files
+OBJS = $(SRCS:.cpp=.o)
+
+# Default target
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
 
-main.o: main.cpp
-	$(CXX) $(CXXFLAGS) -c main.cpp
+# Compile source files into object files
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-trim_list.o: trim_list.cpp
-	$(CXX) $(CXXFLAGS) -c trim_list.cpp
-
-calculate_distances.o: calculate_distances.cpp
-	$(CXX) $(CXXFLAGS) -c calculate_distances.cpp
-
-common.o: common.cpp
-	$(CXX) $(CXXFLAGS) -c common.cpp
-
+# Clean target
 clean:
-	rm -f $(OBJS) $(TARGET)
-
-.PHONY: all clean
+	rm -f $(TARGET) $(OBJS)
