@@ -1,44 +1,18 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <vector>
-#include <cmath>
-#include <string>
-#include <algorithm>
+#include "calculate_distances.h"
 
-// Constants
-const float R = 6371.0f;  // Radius of Earth in kilometers
+void create_distances() {
+    // Check if the output file already exists
+    std::ifstream checkFile("airport_distances.txt");
+    if (checkFile.good()) {
+        std::cout << "Distance list already exists." << std::endl;
+        checkFile.close();
+        return;  // Exit the function early if the file exists
+    }
 
-// Struct for storing airport data
-struct Airport {
-    std::string tag;
-    float latitude;
-    float longitude;
-};
-
-// Function to calculate Haversine distance
-float haversine_distance(float lat1, float lon1, float lat2, float lon2) {
-    const float DEG_TO_RAD = 3.14159265358979323846f / 180.0f;
-    lat1 *= DEG_TO_RAD;
-    lon1 *= DEG_TO_RAD;
-    lat2 *= DEG_TO_RAD;
-    lon2 *= DEG_TO_RAD;
-
-    float dlat = lat2 - lat1;
-    float dlon = lon2 - lon1;
-    float a = std::sin(dlat / 2.0f) * std::sin(dlat / 2.0f) +
-              std::cos(lat1) * std::cos(lat2) * std::sin(dlon / 2.0f) * std::sin(dlon / 2.0f);
-    float c = 2.0f * std::atan2(std::sqrt(a), std::sqrt(1.0f - a));
-    return R * c;
-}
-
-int main() {
     std::ifstream infile("airport_coordinates_trimmed.txt");
-    std::ofstream outfile("airport_distances.txt");
-
     if (!infile.is_open()) {
         std::cerr << "Error opening airport_coordinates_trimmed.txt." << std::endl;
-        return 1;
+        return;
     }
 
     std::vector<Airport> airports;
@@ -52,7 +26,11 @@ int main() {
     }
     infile.close();
 
+    // Create and open the output file
+    std::ofstream outfile("airport_distances.txt");
+
     int num_airports = airports.size();
+    std::cout << "Starting distance calculations..." << std::endl;
     for (int i = 0; i < num_airports; ++i) {
         std::vector<std::pair<float, std::string>> distance_tag_pairs;
         for (int j = 0; j < num_airports; ++j) {
@@ -62,14 +40,19 @@ int main() {
             distance_tag_pairs.emplace_back(distance, airports[j].tag);
         }
         std::sort(distance_tag_pairs.begin(), distance_tag_pairs.end());
+
+        // Write sorted distances to the output file
         outfile << airports[i].tag << ":\n";
         for (int k = 0; k < std::min(250, num_airports); ++k) {
             outfile << distance_tag_pairs[k].second << " " << distance_tag_pairs[k].first << "\n";
         }
         outfile << "END\n";
+
+        // Output progress
+        int percent_complete = static_cast<int>((i + 1) * 100.0 / num_airports);
+        std::cout << "Progress: " << percent_complete << "% complete.\r";
+        std::cout.flush();
     }
     outfile.close();
-
-    std::cout << "airport_distances.txt created successfully." << std::endl;
-    return 0;
+    std::cout << std::endl << "Distance calculations completed successfully." << std::endl;
 }

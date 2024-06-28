@@ -1,10 +1,27 @@
-all: create_trimmed_list create_distances
+CXX = g++
+CXXFLAGS = -Wall -g
 
-create_trimmed_list: create_trimmed_list.cpp
-	g++ -o create_trimmed_list create_trimmed_list.cpp
+TARGET = airport_program
+OBJS = main.o trim_list.o calculate_distances.o common.o
 
-create_distances: create_distances.cpp
-	g++ -o create_distances create_distances.cpp
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+main.o: main.cpp
+	$(CXX) $(CXXFLAGS) -c main.cpp
+
+trim_list.o: trim_list.cpp
+	$(CXX) $(CXXFLAGS) -c trim_list.cpp
+
+calculate_distances.o: calculate_distances.cpp
+	$(CXX) $(CXXFLAGS) -c calculate_distances.cpp
+
+common.o: common.cpp
+	$(CXX) $(CXXFLAGS) -c common.cpp
 
 clean:
-	rm -f create_trimmed_list create_distances
+	rm -f $(OBJS) $(TARGET)
+
+.PHONY: all clean
