@@ -44,7 +44,7 @@ void create_distances() {
 
         // Write sorted distances to the output file
         outfile << airports[i].tag << ":\n";
-        for (int k = 0; k < std::min(250, num_airports); ++k) {
+        for (int k = 0; k < std::min(100, num_airports); ++k) {
             outfile << distance_tag_pairs[k].second << " " << distance_tag_pairs[k].first << "\n";
         }
         outfile << "END\n";

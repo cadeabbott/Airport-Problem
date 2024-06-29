@@ -5,7 +5,7 @@ CXXFLAGS = -Wall -g
 TARGET = airport_program
 
 # Source files
-SRCS = main.cpp trim_list.cpp calculate_distances.cpp read_distances.cpp depth_search.cpp nearest_neighbor.cpp common.cpp
+SRCS = main.cpp trim_list.cpp calculate_distances.cpp read_distances.cpp depth_search.cpp nearest_neighbor.cpp monte_carlo.cpp grid_search.cpp common.cpp
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)
