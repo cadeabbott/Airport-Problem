@@ -25,15 +25,8 @@ int main() {
             nearest_neighbor_search();
             std::cout << "Nearest neighbor search completed. Check 'airport_list.txt' for the results.\n";
         } else if (choice == 2) {
-            size_t maxDepth = 5;
-            size_t maxBreadth = 10;
-            std::cout << "Enter the maximum depth (default 5): ";
-            std::cin >> maxDepth;
-            std::cout << "Enter the maximum breadth (default 10): ";
-            std::cin >> maxBreadth;
-
             std::cout << "Starting depth search...\n";
-            depth_search(maxDepth, maxBreadth);
+            depth_search();
             std::cout << "Depth search completed. Check 'airport_list.txt' for the results.\n";
         } else {
             std::cout << "Invalid choice. Exiting program.\n";
