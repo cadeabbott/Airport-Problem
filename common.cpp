@@ -26,5 +26,4 @@ void savePathToFile(const std::vector<std::string>& path, float total_distance, 
     }
     outFile << "Total distance: " << total_distance << " km\n";
     outFile.close();
-    std::cout << "Path and total distance saved to " << filename << std::endl;
 }

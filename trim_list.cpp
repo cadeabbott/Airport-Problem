@@ -9,14 +9,14 @@
 bool create_trimmed_list() {
     std::ifstream checkFile("airport_coordinates_trimmed.txt");
     if (checkFile.good()) {
-        std::cout << "Trimmed list already exists." << std::endl;
+        std::cout << "Trimmed list already exists" << std::endl;
         checkFile.close();
         return true;  // Proceed to distance calculation
     }
 
     std::ifstream infile("airport_coordinates.txt");
     if (!infile.is_open()) {
-        std::cerr << "Error opening airport_coordinates.txt." << std::endl;
+        std::cerr << "Error opening airport_coordinates.txt" << std::endl;
         return false;
     }
 
@@ -25,7 +25,6 @@ bool create_trimmed_list() {
     Airport kdkx_airport;
     bool kdkx_found = false;
 
-    std::cout << "Starting to read and process airport data..." << std::endl;
     while (std::getline(infile, line)) {
         std::istringstream iss(line);
         Airport airport;
@@ -57,10 +56,10 @@ bool create_trimmed_list() {
         }
         processed_count++;
         int percent_complete = static_cast<int>((processed_count * 100.0) / total_airports);
-        std::cout << "Processing progress: " << percent_complete << "%\r";
+        std::cout << "Progress: " << percent_complete << "%\r";
         std::cout.flush();
     }
-    std::cout << std::endl << "Airport list trimmed and saved successfully." << std::endl;
+    std::cout << std::endl << "Airport list trimmed and saved successfully!" << std::endl;
     outfile.close();
     return true;
 }

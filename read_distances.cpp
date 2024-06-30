@@ -19,8 +19,6 @@ std::vector<AirportData> readDistances(const std::string& filename) {
     std::ifstream file(filename);
     std::string line;
 
-    std::cout << "Reading distances from file...\n";
-
     AirportData current_airport;
     bool reading_distances = false;
 
@@ -70,6 +68,5 @@ std::vector<AirportData> readDistances(const std::string& filename) {
     }
 
     file.close();
-    std::cout << "Distances loaded. Total airports: " << airports.size() << std::endl;
     return airports;
 }

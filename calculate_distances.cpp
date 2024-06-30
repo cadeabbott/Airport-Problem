@@ -5,14 +5,14 @@ void create_distances() {
     // Check if the output file already exists
     std::ifstream checkFile("airport_distances.txt");
     if (checkFile.good()) {
-        std::cout << "Distance list already exists." << std::endl;
+        std::cout << "Distance list already exists" << std::endl;
         checkFile.close();
         return;  // Exit the function early if the file exists
     }
 
     std::ifstream infile("airport_coordinates_trimmed.txt");
     if (!infile.is_open()) {
-        std::cerr << "Error opening airport_coordinates_trimmed.txt." << std::endl;
+        std::cerr << "Error opening airport_coordinates_trimmed.txt" << std::endl;
         return;
     }
 
@@ -31,7 +31,6 @@ void create_distances() {
     std::ofstream outfile("airport_distances.txt");
 
     int num_airports = airports.size();
-    std::cout << "Starting distance calculations..." << std::endl;
     for (int i = 0; i < num_airports; ++i) {
         std::vector<std::pair<float, std::string>> distance_tag_pairs;
         for (int j = 0; j < num_airports; ++j) {
@@ -51,9 +50,10 @@ void create_distances() {
 
         // Output progress
         int percent_complete = static_cast<int>((i + 1) * 100.0 / num_airports);
-        std::cout << "Progress: " << percent_complete << "% complete.\r";
+        std::cout << "Progress: " << percent_complete << "%\r";
         std::cout.flush();
     }
+    std::cout << "\n";
+    std::cout << "Distances calculated and saved successfully!\n";
     outfile.close();
-    std::cout << std::endl << "Distance calculations completed successfully." << std::endl;
 }

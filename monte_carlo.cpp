@@ -10,14 +10,13 @@
 #include <limits>
 #include <thread>
 #include <mutex>
-#include <fstream>
 #include <cmath>
 
 std::mutex mtx;
 float global_best_distance = std::numeric_limits<float>::max();
 std::chrono::high_resolution_clock::time_point start_time;
 
-void monte_carlo_worker(const std::vector<AirportData>& airports, float& best_distance, std::vector<std::string>& best_path, int& paths_evaluated, int runtime_seconds, const std::vector<float>& probabilities, std::ofstream& output_file) {
+void monte_carlo_worker(const std::vector<AirportData>& airports, float& best_distance, std::vector<std::string>& best_path, int& paths_evaluated, int runtime_seconds, const std::vector<float>& probabilities) {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::discrete_distribution<> d(probabilities.begin(), probabilities.end());
@@ -75,9 +74,6 @@ void monte_carlo_worker(const std::vector<AirportData>& airports, float& best_di
             if (path.size() == 110 && total_distance < best_distance) {
                 best_distance = total_distance;
                 best_path = path;
-
-                auto time_since_start = std::chrono::high_resolution_clock::now() - start_time;
-                output_file << std::chrono::duration_cast<std::chrono::seconds>(time_since_start).count() << " " << best_distance << std::endl;
             }
 
             if (best_distance < global_best_distance) {
@@ -91,7 +87,7 @@ void monte_carlo_worker(const std::vector<AirportData>& airports, float& best_di
     }
 }
 
-void monte_carlo_search(int num_threads, const std::vector<float>& probabilities, int runtime_seconds, const std::string& output_file_path) {
+void monte_carlo_search(int num_threads, const std::vector<float>& probabilities, int runtime_seconds) {
     start_time = std::chrono::high_resolution_clock::now();
     auto airports = readDistances("airport_distances.txt");
     if (airports.empty()) {
@@ -103,11 +99,9 @@ void monte_carlo_search(int num_threads, const std::vector<float>& probabilities
     std::vector<std::string> best_path;
     int paths_evaluated = 0;
 
-    std::ofstream output_file(output_file_path);
-
     std::vector<std::thread> threads;
     for (int i = 0; i < num_threads; ++i) {
-        threads.emplace_back(monte_carlo_worker, std::cref(airports), std::ref(best_distance), std::ref(best_path), std::ref(paths_evaluated), runtime_seconds, std::cref(probabilities), std::ref(output_file));
+        threads.emplace_back(monte_carlo_worker, std::cref(airports), std::ref(best_distance), std::ref(best_path), std::ref(paths_evaluated), runtime_seconds, std::cref(probabilities));
     }
 
     for (auto& thread : threads) {
@@ -116,8 +110,8 @@ void monte_carlo_search(int num_threads, const std::vector<float>& probabilities
 
     if (!best_path.empty()) {
         savePathToFile(best_path, best_distance, "airport_list.txt");
-        std::cout << "\nMonte Carlo search completed. Best path saved to airport_list.txt\n";
     } else {
         std::cerr << "\nUnable to generate a path of 110 airports.\n";
     }
+    std::cout << "\n";
 }
