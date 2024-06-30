@@ -1,4 +1,3 @@
-#include "common.h"
 #include "calculate_distances.h"
 
 void create_distances() {

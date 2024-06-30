@@ -1,16 +1,4 @@
 #include "monte_carlo.h"
-#include "read_distances.h"
-#include "common.h"
-#include <iostream>
-#include <vector>
-#include <unordered_set>
-#include <algorithm>
-#include <random>
-#include <chrono>
-#include <limits>
-#include <thread>
-#include <mutex>
-#include <cmath>
 
 std::mutex mtx;
 float global_best_distance = std::numeric_limits<float>::max();

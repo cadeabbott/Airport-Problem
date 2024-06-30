@@ -3,6 +3,12 @@
 
 #include <vector>
 #include <string>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <limits>
+#include <algorithm>
+#include <cctype>
 
 struct Distance {
     std::string airport;

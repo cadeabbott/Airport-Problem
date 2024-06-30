@@ -1,10 +1,4 @@
 #include "trim_list.h"
-#include "common.h"
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <vector>
-#include <string>
 
 bool create_trimmed_list() {
     std::ifstream checkFile("airport_coordinates_trimmed.txt");

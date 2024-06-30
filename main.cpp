@@ -2,8 +2,6 @@
 #include "trim_list.h"
 #include "calculate_distances.h"
 #include "read_distances.h"
-#include <iostream>
-#include <vector>
 
 int main() {
     std::cout << "Trimming airport list...\n";
